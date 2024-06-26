@@ -47,7 +47,7 @@ func TestRunAndStop(t *testing.T) {
 	assert.Nil(t, err)
 
 	go func() {
-		errChan <- worker.Start(ctx)
+		errChan <- worker.Run(ctx)
 	}()
 
 	eventually(t, receiveStruct(tickChan))
@@ -104,7 +104,7 @@ func TestNonStrict(t *testing.T) {
 	assert.Nil(t, err)
 
 	go func() {
-		errChan <- worker.Start(ctx)
+		errChan <- worker.Run(ctx)
 	}()
 
 	clock.BlockingAdvance(time.Minute)
@@ -187,7 +187,7 @@ func TestStrict(t *testing.T) {
 	assert.Nil(t, err)
 
 	go func() {
-		errChan <- worker.Start(ctx)
+		errChan <- worker.Run(ctx)
 	}()
 
 	clock.BlockingAdvance(time.Second * 57)
@@ -295,7 +295,7 @@ func TestFinalize(t *testing.T) {
 	assert.Nil(t, err)
 
 	go func() {
-		errChan <- worker.Start(ctx)
+		errChan <- worker.Run(ctx)
 	}()
 
 	worker.Stop(ctx)
@@ -323,7 +323,7 @@ func TestFinalizeError(t *testing.T) {
 	assert.Nil(t, err)
 
 	go func() {
-		errChan <- worker.Start(ctx)
+		errChan <- worker.Run(ctx)
 	}()
 
 	worker.Stop(ctx)
@@ -355,7 +355,7 @@ func TestFinalizeErrorDoesNotOverwrite(t *testing.T) {
 	assert.Nil(t, err)
 
 	go func() {
-		errChan <- worker.Start(ctx)
+		errChan <- worker.Run(ctx)
 	}()
 
 	worker.Stop(ctx)
@@ -383,7 +383,7 @@ func TestTickError(t *testing.T) {
 	assert.Nil(t, err)
 
 	go func() {
-		errChan <- worker.Start(ctx)
+		errChan <- worker.Run(ctx)
 	}()
 
 	value := readErrorValue(t, errChan)
@@ -410,7 +410,7 @@ func TestTickContext(t *testing.T) {
 	assert.Nil(t, err)
 
 	go func() {
-		errChan <- worker.Start(ctx)
+		errChan <- worker.Run(ctx)
 	}()
 
 	worker.Stop(ctx)
